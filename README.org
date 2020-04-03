@@ -1,0 +1,74 @@
+#+TITLE: Transclusion in Emacs
+
+This file exists to gather resources related to implementing transclusion in Emacs.
+
+The topic frequently reappears in discussions on Reddit, the mailing lists, etc, and usually only a few of the existing resources are mentioned.  It's time to gather them in one place.
+
+Please send additions as pull requests.  When adding a resource, please add a summary as of the date it's added.
+
+* Contents
+:PROPERTIES:
+:TOC:      :include siblings :depth 2 :ignore (this)
+:END:
+:CONTENTS:
+- [[Discussions][Discussions]]
+  - [[Bug Reports][Bug Reports]]
+  - [[Mailing lists][Mailing lists]]
+  - [[Reddit][Reddit]]
+  - [[StackExchange][StackExchange]]
+- [[Packages][Packages]]
+:END:
+
+* Discussions
+
+** Bug Reports
+
+*** [[https://debbugs.gnu.org/cgi/bugreport.cgi?bug=35419][#35419 - {Proposal} Buffer Lenses and the Case of Org-Mode (also, Jupyter) - GNU bug report logs]]
+
+** Mailing lists
+
+*** [[https://lists.gnu.org/archive/html/emacs-devel/2020-04/msg00141.html][Request for pointers and advice: displaying several buffers inside a single window]]
+
+[2020-04-03 Fri 09:13]
+
+*** [[id:87b5befe-a037-4624-a7f4-6253f91d34e8][{O} transcluding some org-elements in multiple places]]
+
+** Reddit
+
+*** [[https://www.reddit.com/r/emacs/comments/fu91nf/35419_proposal_buffer_lenses_and_the_case_of/?][#35419 - {Proposal} Buffer Lenses and the Case of Org-Mode (also, Jupyter) : emacs]]
+
+[2020-04-03 Fri 09:13]
+
+** StackExchange
+
+*** [[id:6ba74e27-cc16-455f-8d81-9b33428848e3][Is there an emacs package which can mirror a region? - Emacs Stack Exchange]]
+
+*** [[https://emacs.stackexchange.com/questions/12562/org-mode-headings-in-multiple-places-at-once-transclusion][Org-mode headings in multiple places at once? (transclusion) - Emacs Stack Exchange]]
+
+* Packages
+:PROPERTIES:
+:TOC:      :include descendants :depth 0 :force (depth)
+:END:
+
+** [[https://github.com/gregdetre/emacs-freex][GitHub - gregdetre/emacs-freex: Emacs Freex mode is a minor mode for organizing and editing a massively-hyperlinked database of your notes and ideas. It's a personal wiki on steroids.]]
+
+** [[https://github.com/synchrony/smsn-why][GitHub - synchrony/smsn-why: Get psyched about mapping knowledge!]]
+
+** [[https://github.com/whacked/transclusion-minor-mode][GitHub - whacked/transclusion-minor-mode: emacs minor mode for org-mode file transclusion using embedded overlays]]
+
+* COMMENT Config                                                   :noexport:
+
+** File-local variables
+
+# Local Variables:
+# eval: (require 'org-make-toc)
+# eval: (unpackaged/org-export-html-with-useful-ids-mode 1)
+# org-make-toc-link-type-fn: org-make-toc--link-entry-org
+# before-save-hook: ((lambda () (unpackaged/org-fix-blank-lines t)) (lambda () (save-excursion (goto-char (point-min)) (ap/org-sort-entries-recursive-multi '(?a ?p)))) org-make-toc)
+# after-save-hook: (lambda nil (when (org-html-export-to-html) (rename-file "README.html" "index.html" t)))
+# org-export-with-title: t
+# org-export-with-broken-links: mark
+# org-id-link-to-org-use-id: t
+# org-export-initial-scope: buffer
+# eval: (real-auto-save-mode -1)
+# End:
