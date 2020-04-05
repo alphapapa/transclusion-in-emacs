@@ -41,7 +41,7 @@ Please send additions as pull requests.  When adding a resource, please add a su
 
 ** StackExchange
 
-*** [[id:6ba74e27-cc16-455f-8d81-9b33428848e3][Is there an emacs package which can mirror a region? - Emacs Stack Exchange]]
+*** [[https://emacs.stackexchange.com/questions/56201/is-there-an-emacs-package-which-can-mirror-a-region/56202#56202][Is there an emacs package which can mirror a region? - Emacs Stack Exchange]]
 
 *** [[https://emacs.stackexchange.com/questions/12562/org-mode-headings-in-multiple-places-at-once-transclusion][Org-mode headings in multiple places at once? (transclusion) - Emacs Stack Exchange]]
 
