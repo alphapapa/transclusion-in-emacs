@@ -39,6 +39,20 @@ Please send additions as pull requests.  When adding a resource, please add a su
 
 [2020-04-03 Fri 09:13]
 
+*** [[https://www.reddit.com/r/emacs/comments/flxqei/cloningmirroring_a_region_to_some_other_location/][Cloning/mirroring a region to some other location : emacs]]
+
+[2020-03-20 Fri 06:18]  Protesilaos Stavros also comments:
+
+#+BEGIN_QUOTE
+Good to know! The Emacs manual also has a chapter on "accumulating text". Excerpt:
+
+- ‘M-x append-to-buffer’ :: Append region to the contents of a specified buffer.
+-  ‘M-x prepend-to-buffer’ :: Prepend region to the contents of a specified buffer.
+-  ‘M-x copy-to-buffer’ :: Copy region into a specified buffer, deleting that buffer’s old contents.
+-  ‘M-x insert-buffer’ :: Insert the contents of a specified buffer into current buffer at point.
+-  ‘M-x append-to-file’ :: Append region to the contents of a specified file, at the end.
+#+END_QUOTE
+
 ** StackExchange
 
 *** [[https://emacs.stackexchange.com/questions/56201/is-there-an-emacs-package-which-can-mirror-a-region/56202#56202][Is there an emacs package which can mirror a region? - Emacs Stack Exchange]]
