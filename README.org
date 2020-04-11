@@ -12,7 +12,7 @@ Please send additions as pull requests.  When adding a resource, please add a su
 :END:
 :CONTENTS:
 - [[Discussions][Discussions]]
-  - [[Bug Reports][Bug Reports]]
+  - [[Bug reports / Feature requests][Bug reports / Feature requests]]
   - [[Mailing lists][Mailing lists]]
   - [[Reddit][Reddit]]
   - [[StackExchange][StackExchange]]
@@ -21,27 +21,135 @@ Please send additions as pull requests.  When adding a resource, please add a su
 
 * Discussions
 
-** Bug Reports
+** Bug reports / Feature requests
 
 *** [[https://debbugs.gnu.org/cgi/bugreport.cgi?bug=35419][#35419 - {Proposal} Buffer Lenses and the Case of Org-Mode (also, Jupyter) - GNU bug report logs]]
 
+[2019-04-25 Thu]  Dmitrii Korobeinikov's report is extensive.  The discussion on the report continues into April of 2020.
+
+#+BEGIN_QUOTE
+*SUMMARY* /Buffer lens/ is an object inside a buffer which provides that
+buffer the lines to display and which is linked to another buffer (from
+which it can take and process data), while mapping the input back to that
+linked buffer. /Composite lens/ is the extension of this idea to interface
+any sources of data (for which text interface is possible). Some Org-mode
+problems are addressed, particularly those concerning source block editing
+and viewing, syntax checking, completion and reference expansion.
+
+This is a proposal for /lenses/. Hereby, I outline the general idea, the
+problems it solves, the features it introduces and its use cases.
+#+END_QUOTE
+
+See also [[https://www.reddit.com/r/emacs/comments/fu91nf/35419_proposal_buffer_lenses_and_the_case_of/?][Reddit discussion of the report]] from 2020, in which Ihor Radchenko mentions:
+
+#+BEGIN_QUOTE
+Here is my work-in-progress on the subject: https://github.com/yantar92/mirror-text. I have little time to work on it in near future, but hope the ideas and links could be useful.
+#+END_QUOTE
+
 ** Mailing lists
 
-*** [[https://lists.gnu.org/archive/html/emacs-devel/2020-04/msg00141.html][Request for pointers and advice: displaying several buffers inside a single window]]
+*** emacs-devel
 
-[2020-04-03 Fri 09:13]
+**** [[https://lists.gnu.org/archive/html/emacs-devel/2020-04/msg00141.html][Request for pointers and advice: displaying several buffers inside a single window]]
 
-*** [[id:87b5befe-a037-4624-a7f4-6253f91d34e8][{O} transcluding some org-elements in multiple places]]
+[2020-04-03 Fri]  Dmitrii Korobeinikov asks:
+
+#+BEGIN_QUOTE
+I want to explore the feasibility of displaying two (indirect) buffers
+inside a single window, one after another. Each buffer has to look
+like it's rendered in its own mode. For the starters, each buffer can
+start on its own new line in the window. No interaction w/ text is
+required for now.
+
+I have been entertaining the idea since my proposal for lenses [1],
+and now that I have some desire to get hacking a little, I want to see
+if I can get onto this first ladder step to the goal. What concerns me
+now is how to approach the problem. So, I come here to ask for your
+advice and comments. You know, "it's dangerous to go alone, take
+this!" sort of deal.
+
+I guess I would first have to learn how the renderer functions. Any
+good resources on that besides the source code?
+
+Eventually, I would have to explore beyond the renderer and get to
+play with the data structures, so I can do the interaction w/ text
+possible. But that doesn't concern me all that much until I get to
+actually draw some buffers together.
+#+END_QUOTE
+
+The discussion is extensive, including replies from Eli Zaretskii and Ihor Radchenko, and mentions modifying =xdisp.c=, the buffer data structure, associated functions, etc.
+
+**** [[https://lists.gnu.org/archive/html/emacs-devel/2018-07/msg00863.html][{Feature Discuss} Nested buffer]]
+
+[2018-07-23 Mon] fei xiaobo asks:
+
+#+BEGIN_QUOTE
+I am building a plan to implement *Nested buffer* in Emacs recently. Is it a good ideal?
+
+Nested buffer what I mean here is the sub-buffers which embedded in a host buffer.
+
++  Nested/Embed buffer's content is linked to an arbitrary buffer.
++  Host buffer's content consists of the content of all the nested buffers.
+
+If having this, we could embed multiple buffers' content into a host buffer to get one virtual buffer. And, after updating the nested buffer's content, the virtual host buffer's content is updated too. I think it will be helpful for many special plugins.
+
+Appreciated any comments or suggestion.
+#+END_QUOTE
+
+Includes responses by Stefan Monnier and Eli Zaretskii.
+
+*** org-mode
+
+**** [[https://lists.gnu.org/archive/html/emacs-orgmode/2016-12/msg00183.html][{O} transcluding some org-elements in multiple places]]
+
+[2016-12-09 Fri]  John Kitchin asks:
+
+#+BEGIN_QUOTE
+I have an idea for how I could transclude "copies" or links to
+org-elements in multiple places and keep them up to date. A prototypical
+example of this is I have a set of org-contacts in one place, and I want
+to create a new list of people for a committee in a new place made of
+"copies" of the contact headlines. But I do not really want to duplicate
+the headlines, and if I modify one, I want it reflected in the other
+places. I do not want just links to those contacts, because then I can
+not do things with org-map-entries, and other org-machinery which needs
+the actual headlines/properties present. Another example might be I want
+a table in two places, but the contents of them should stay
+synchronized, ditto for a code block.
+
+This idea was inspired by https://github.com/gregdetre/emacs-freex.
+
+The idea starts with creating (wait for it...) a new link ;) In a
+document where I want to transclude a headline, I would enter something like:
+
+[[transclude:some-file.org::*headline title]]
+
+Then, I would rely on the font-lock system to replace that link with the
+headline and its contents (via the :activate-func link property), and to
+put an overlay on it with a bunch of useful properties, including
+modification hooks that would update the source if I change the the
+element in this document, and some visual indication that it is
+transcluded (e.g. light gray background/tooltip).
+
+I would create a kill-buffer hook function that would replace that
+transcluded content with the original link. A focus-in hook function
+would make sure the transcluded content is updated when you enter the
+frame. So when the file is not open, there is just a transclude link
+indicating what should be put there, and when it is open, the overlay
+modification hooks and focus hook should ensure everything stays
+synchronized (as long as external processes are not modifying the
+contents).
+
+It seems like this could work well for headlines, and named tables, src
+blocks, and probably any other element that can be addressed by a
+name/ID.
+#+END_QUOTE
 
 ** Reddit
 
-*** [[https://www.reddit.com/r/emacs/comments/fu91nf/35419_proposal_buffer_lenses_and_the_case_of/?][#35419 - {Proposal} Buffer Lenses and the Case of Org-Mode (also, Jupyter) : emacs]]
-
-[2020-04-03 Fri 09:13]
-
 *** [[https://www.reddit.com/r/emacs/comments/flxqei/cloningmirroring_a_region_to_some_other_location/][Cloning/mirroring a region to some other location : emacs]]
 
-[2020-03-20 Fri 06:18]  Protesilaos Stavros also comments:
+[2020-03-20 Fri]  Protesilaos Stavros comments:
 
 #+BEGIN_QUOTE
 Good to know! The Emacs manual also has a chapter on "accumulating text". Excerpt:
@@ -55,9 +163,108 @@ Good to know! The Emacs manual also has a chapter on "accumulating text". Excerp
 
 ** StackExchange
 
+*** [[https://stackoverflow.com/questions/15328515/iso-transclusion-in-emacs-org-mode][include - ISO transclusion in emacs org-mode? - Stack Overflow]]
+
+[2013-03-10 Sun]
+
+#+BEGIN_QUOTE
+Q: is there any way to do transclusion in emacs org-mode?
+
+By "transclusion", I mean stuff like, at some point in fileA.org and fileB.org, "including" fileInc.org - and having the tree from fileInc.org appear in both places. Actually appear, not just be linked to. (Possibly with conditional inclusion, transformation, e.g. nesting depth (number of ***s)).
+
+I know about #setupfile, but that seems only to work for modes, not real text.
+
+I know about http://orgmode.org/manual/Include-files.html, but AFAIK they only work at export time.
+
+I am looking for something that works in a normal emacs org-mode buffer. (Actually, something that worked in non-org-mode buffers might be nice.)
+
+I have boiler plate that I want to include in multiple files.
+
+Does something like this exist?
+#+END_QUOTE
+
+[[https://stackoverflow.com/users/1617649/rob][Rob]] replies with an example of a simple Org dynamic block that provides read-only transclusion:
+
+#+BEGIN_QUOTE markdown
+Hmm... I don't think anything like this exists, but it was easy enough to write a dynamic block to do this.  The following elisp works for me:
+
+    (defun org-dblock-write:transclusion (params)
+      (progn
+        (with-temp-buffer
+          (insert-file-contents (plist-get params :filename))
+          (let ((range-start (or (plist-get params :min) (line-number-at-pos (point-min))))
+                (range-end (or (plist-get params :max) (line-number-at-pos (point-max)))))
+            (copy-region-as-kill (line-beginning-position range-start)
+                                 (line-end-position range-end))))
+        (yank)))
+
+Then to include a line range from a given file, you can create a dynamic block like so:
+
+     #+BEGIN: transclusion :filename "~/testfile.org" :min 2 :max 4
+     #+END:
+
+And auto-populate with `C-c C-x C-u`.  Skip the min and max args to include the entire file.  Note that you can bind `org-update-all-dblocks` to a hook, so that this range is updated whenever you visit the file or save.
+
+More info on dynamic blocks at http://orgmode.org/org.html#Dynamic-blocks.  Hope this helps!
+#+END_QUOTE
+
 *** [[https://emacs.stackexchange.com/questions/56201/is-there-an-emacs-package-which-can-mirror-a-region/56202#56202][Is there an emacs package which can mirror a region? - Emacs Stack Exchange]]
 
+[2020-03-17 Tue]
+
+#+BEGIN_QUOTE
+Say, I have a buffer A in which there is a region of text from some position pos1 to an other position pos2.
+
+I switch to buffer B, call a function with buffer A, pos1 and pos2 as parameters and it copies the referred region to buffer B at point and lets me edit it at either place with all the edits made in buffer B's relevant region mirrored to buffer A's relevant region and vica versa.
+#+END_QUOTE
+
+Includes the following reply from [[https://emacs.stackexchange.com/users/2370/tobias][Tobias]], including some sample code (omitted here):
+
+#+BEGIN_QUOTE markdown
+The documentation string for the command `text-clone-create`:
+
+> (text-clone-create START END &optional SPREADP SYNTAX)
+> 
+> Create a text clone of START...END at point.
+> Text clones are chunks of text that are automatically kept identical:
+> changes done to one of the clones will be immediately propagated to the other.
+> 
+> The buffer’s content at point is assumed to be already identical to
+> the one between START and END.
+> If SYNTAX is provided it’s a regexp that describes the possible text of
+> the clones; the clone will be shrunk or killed if necessary to ensure that
+> its text matches the regexp.
+> If SPREADP is non-nil it indicates that text inserted before/after the
+> clone should be incorporated in the clone.
+
+Note, that you must copy the text as the first action yourself.
+
+Pityingly, the original version only works for one buffer. But it is easy to fix it for the case that original and clone do not have the same buffer. In the following Elisp code I marked the changed lines with `;;< Tobias`.
+
+There is also an interactive helper command `my-clone` in the code.
+
+1. Mark the region you want to clone.
+2. Call <kbd>M-x</kbd> `my-clone` <kbd>RET</kbd>. Emacs goes into `recursive-edit` state.
+3. Navigate to the buffer and to the position where you want to clone the previously marked region.
+4. Finish `recursive-edit` with <kbd>C-M-c</kbd>.
+5. Now edit either the original region or the clone. The modifications are replicated in the other region.
+#+END_QUOTE
+
 *** [[https://emacs.stackexchange.com/questions/12562/org-mode-headings-in-multiple-places-at-once-transclusion][Org-mode headings in multiple places at once? (transclusion) - Emacs Stack Exchange]]
+
+[2015-05-20 Wed]
+
+#+BEGIN_QUOTE
+I'd like to organize my headings in multiple ways at once. (with the same degree of flexibility that I have when organizing things in any one place - e.g. more than the Agenda provides)
+
+Ideally I'd be able to make a heading in part of a document, and then create a "hard link" to the heading somewhere else, which would update both as the content of heading changed.
+
+Next best would be "soft links" which only store the heading content in one canonical location, and just show it in the other location (and if you edit it in either, it just updates in the canonical location).
+
+Right now the best I know how to do is just create normal links, which I need to manually follow to see the content. Is there any way to do better than this?
+#+END_QUOTE
+
+Replies point to =emacs-freex= and =transclusion-minor-mode=.
 
 * Packages
 :PROPERTIES:
