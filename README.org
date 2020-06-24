@@ -147,6 +147,8 @@ name/ID.
 
 ** Reddit
 
+*** [[https://www.reddit.com/r/emacs/comments/10gc9u/can_i_have_multiple_parts_of_buffers_in_one_super/][Can I have multiple parts of buffers in one super buffer? : emacs]]
+
 *** [[https://www.reddit.com/r/emacs/comments/flxqei/cloningmirroring_a_region_to_some_other_location/][Cloning/mirroring a region to some other location : emacs]]
 
 [2020-03-20 Fri]  Protesilaos Stavros comments:
@@ -272,6 +274,8 @@ Replies point to =emacs-freex= and =transclusion-minor-mode=.
 :END:
 
 ** [[https://github.com/gregdetre/emacs-freex][GitHub - gregdetre/emacs-freex: Emacs Freex mode is a minor mode for organizing and editing a massively-hyperlinked database of your notes and ideas. It's a personal wiki on steroids.]]
+
+** [[https://github.com/magnars/multifiles.el][GitHub - magnars/multifiles.el: Work in progress: View and edit parts of multiple files in one buffer]]
 
 ** [[https://github.com/synchrony/smsn-why][GitHub - synchrony/smsn-why: Get psyched about mapping knowledge!]]
 
