@@ -163,6 +163,10 @@ Good to know! The Emacs manual also has a chapter on "accumulating text". Excerp
 -  ‘M-x append-to-file’ :: Append region to the contents of a specified file, at the end.
 #+END_QUOTE
 
+*** [[https://www.reddit.com/r/emacs/comments/j6k2j8/orgmode_transclusionblockreference_prototype/][Org-mode Transclusion/Block-reference Prototype : emacs]] :video:demo:prototype:
+
+[2020-10-07 Wed 10:55]  Discussion of this video demo posted by Noboru Nobiot: [[https://youtu.be/Wjk-otO2xrI][Transclusion / Block Reference with Emacs (Org Mode) - Prototype - YouTube]]
+
 ** StackExchange
 
 *** [[https://stackoverflow.com/questions/15328515/iso-transclusion-in-emacs-org-mode][include - ISO transclusion in emacs org-mode? - Stack Overflow]]
