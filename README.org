@@ -164,6 +164,9 @@ Good to know! The Emacs manual also has a chapter on "accumulating text". Excerp
 #+END_QUOTE
 
 *** [[https://www.reddit.com/r/emacs/comments/j6k2j8/orgmode_transclusionblockreference_prototype/][Org-mode Transclusion/Block-reference Prototype : emacs]] :video:demo:prototype:
+:PROPERTIES:
+:ID:       7bd62eda-5e00-42f2-9284-d96ff3eaa197
+:END:
 
 [2020-10-07 Wed 10:55]  Discussion of this video demo posted by Noboru Nobiot: [[https://youtu.be/Wjk-otO2xrI][Transclusion / Block Reference with Emacs (Org Mode) - Prototype - YouTube]]
 
@@ -280,6 +283,10 @@ Replies point to =emacs-freex= and =transclusion-minor-mode=.
 ** [[https://github.com/gregdetre/emacs-freex][GitHub - gregdetre/emacs-freex: Emacs Freex mode is a minor mode for organizing and editing a massively-hyperlinked database of your notes and ideas. It's a personal wiki on steroids.]]
 
 ** [[https://github.com/magnars/multifiles.el][GitHub - magnars/multifiles.el: Work in progress: View and edit parts of multiple files in one buffer]]
+
+** [[https://github.com/nobiot/org-transclusion][GitHub - nobiot/org-transclusion: (prototype) Emacs package to enable transclusion with Org Mode]]
+
++ [[id:7bd62eda-5e00-42f2-9284-d96ff3eaa197][Discussion]]
 
 ** [[https://github.com/synchrony/smsn-why][GitHub - synchrony/smsn-why: Get psyched about mapping knowledge!]]
 
