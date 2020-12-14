@@ -98,6 +98,26 @@ Appreciated any comments or suggestion.
 
 Includes responses by Stefan Monnier and Eli Zaretskii.
 
+*** help-gnu-emacs
+
+**** [[https://lists.nongnu.org/archive/html/help-gnu-emacs/2020-06/msg00151.html][Opening multiple files in a single buffer?]]
+
+#+begin_quote
+Dear List,
+
+I've now been using Emacs for many, many years, and there is perhaps a single feature I'm really missing, namely opening more than one file in a single buffer, with the contents of the files appearing one after the other in the same buffer, with some kind of visual separator between them. I don't know if that feature exists in other text editors.
+
+For example, suppose you write a book, which has fifteen chapters in files chap1.tex, ..., chap15.tex. Opening these files in a single buffer means that you could use isearch-{forward,backward} in the whole book. (I know that multi-isearch-buffers could be used in this particular case, but it is not as convenient to use.) You could also use query-replace on the whole book, or reindent all files, or execute shell-command on all files at once, and so forth. (Again I know that all this can be done with already existing features, e.g. through dired, but again I find them not as convenient as what I have in mind.)
+
+Each file would have its own major and minor modes, and the mode-line would adapt depending on the file corresponding to the buffer portion in which the point is currently located.
+
+My question is: Is this feasible, or is the one-to-one correspondence between buffers and files too deeply rooted in Emacs' codebase that it is not feasible? If it is feasible, could this feature be considered for implementation in a future Emacs version?
+
+Gregory
+#+end_quote
+
+The discussion is very long. As I remember, the main problem was non-trivial implementation (on C level).
+
 *** org-mode
 
 **** [[https://lists.gnu.org/archive/html/emacs-orgmode/2016-12/msg00183.html][{O} transcluding some org-elements in multiple places]]
@@ -169,6 +189,11 @@ Good to know! The Emacs manual also has a chapter on "accumulating text". Excerp
 :END:
 
 [2020-10-07 Wed 10:55]  Discussion of this video demo posted by Noboru Nobiot: [[https://youtu.be/Wjk-otO2xrI][Transclusion / Block Reference with Emacs (Org Mode) - Prototype - YouTube]]
+
+
+*** [[https://old.reddit.com/r/emacs/comments/dz5xeb/is_there_a_way_to_include_an_org_file_in_another/][Is there a way to include an org file in another one and have the contents update in real time? : emacs]]
+
+*** [[https://old.reddit.com/r/emacs/comments/debean/possible_to_embed_another_org_file_or_entry_in_an/][Possible to embed another org file or entry in an org file : emacs]]
 
 ** StackExchange
 
@@ -275,6 +300,48 @@ Right now the best I know how to do is just create normal links, which I need to
 
 Replies point to =emacs-freex= and =transclusion-minor-mode=.
 
+*** [[https://emacs.stackexchange.com/questions/51814/embed-org-task-list-from-other-subtree][Embed org task list from other subtree - Emacs Stack Exchange]]
+
+[2019-08-24 Sat]
+
+#+begin_quote
+Is there a way to embed/include/reference (I don't know the proper word in emacs-speek :)) to headings so that their contents show in a different place?
+
+The idea is to reduce duplications and bookkeeping while maintaining different "views" into e.g. project tasks, potentially using shared files
+
+Example
+
+I write a journal entry in diary.org about a meeting and come up with TODO headings and task lists:
+
+,* Diary ...
+,** 2019-07-24 Meeting recap
+I learned a lot of cool things. Bob was really nice. Alice nailed all the details. Wow. Such productivity. But we got new stuff to do!
+,*** TODO Project X
+,**** TODO Subtask Y
+- [ ] Task A
+- [ ] Task B
+
+I can configure my agenda to see them.
+
+In addition to showing the stuff in my agenda, I want to include the contents in my project list, e.g. work.org:
+
+,* Current client
+,** Current Milestone
+(Here comes not a copy, but a reference of the stuff from above:)
+,*** TODO Project X
+,**** TODO Subtask Y
+- [ ] Task A
+- [ ] Task B
+
+I intend this to be a reference of the heading, so that changes in any of the two org files are reflected in the other.
+
+(Of course I wouldn't want to leave tasks in the journal. The example is contrived. But what about sharing tasks with others in an org file in e.g. Dropbox, and having changes reflected in my own files?)
+
+Is there a method that I fail to find, maybe because I use the wrong search terms? Or would I have to write a sync function myself?
+#+end_quote
+
+There is no reply. The few comments just point towards using links and opening a new window.
+
 * Packages
 :PROPERTIES:
 :TOC:      :include descendants :depth 0 :force (depth)
@@ -291,6 +358,10 @@ Replies point to =emacs-freex= and =transclusion-minor-mode=.
 ** [[https://github.com/synchrony/smsn-why][GitHub - synchrony/smsn-why: Get psyched about mapping knowledge!]]
 
 ** [[https://github.com/whacked/transclusion-minor-mode][GitHub - whacked/transclusion-minor-mode: emacs minor mode for org-mode file transclusion using embedded overlays]]
+
+** [[https://github.com/vspinu/lentic][GitHub - vspinu/lentic: Create views of the same content in two Emacs buffers]]
+
+** [[https://github.com/legalnonsense/org-clones][GitHub - legalnonsense/org-clones: Prototype for method of cloning orgmore headers]]
 
 * COMMENT Config                                                   :noexport:
 
