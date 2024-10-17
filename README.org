@@ -11,17 +11,23 @@ Please send additions as pull requests.  When adding a resource, please add a su
 :TOC:      :include siblings :depth 2 :ignore (this)
 :END:
 :CONTENTS:
-- [[Discussions][Discussions]]
-  - [[Bug reports / Feature requests][Bug reports / Feature requests]]
-  - [[Mailing lists][Mailing lists]]
-  - [[Reddit][Reddit]]
-  - [[StackExchange][StackExchange]]
-- [[Packages][Packages]]
+- [[#discussions][Discussions]]
+  - [[#bug-reports--feature-requests][Bug reports / Feature requests]]
+  - [[#mailing-lists][Mailing lists]]
+  - [[#reddit][Reddit]]
+  - [[#stackexchange][StackExchange]]
+- [[#packages][Packages]]
 :END:
 
 * Discussions
+:PROPERTIES:
+:CUSTOM_ID: discussions
+:END:
 
 ** Bug reports / Feature requests
+:PROPERTIES:
+:CUSTOM_ID: bug-reports--feature-requests
+:END:
 
 *** [[https://debbugs.gnu.org/cgi/bugreport.cgi?bug=35419][#35419 - {Proposal} Buffer Lenses and the Case of Org-Mode (also, Jupyter) - GNU bug report logs]]
 
@@ -47,6 +53,9 @@ Here is my work-in-progress on the subject: https://github.com/yantar92/mirror-t
 #+END_QUOTE
 
 ** Mailing lists
+:PROPERTIES:
+:CUSTOM_ID: mailing-lists
+:END:
 
 *** emacs-devel
 
@@ -146,6 +155,9 @@ name/ID.
 #+END_QUOTE
 
 ** Reddit
+:PROPERTIES:
+:CUSTOM_ID: reddit
+:END:
 
 *** [[https://www.reddit.com/r/emacs/comments/10gc9u/can_i_have_multiple_parts_of_buffers_in_one_super/][Can I have multiple parts of buffers in one super buffer? : emacs]]
 
@@ -171,6 +183,9 @@ Good to know! The Emacs manual also has a chapter on "accumulating text". Excerp
 [2020-10-07 Wed 10:55]  Discussion of this video demo posted by Noboru Nobiot: [[https://youtu.be/Wjk-otO2xrI][Transclusion / Block Reference with Emacs (Org Mode) - Prototype - YouTube]]
 
 ** StackExchange
+:PROPERTIES:
+:CUSTOM_ID: stackexchange
+:END:
 
 *** [[https://stackoverflow.com/questions/15328515/iso-transclusion-in-emacs-org-mode][include - ISO transclusion in emacs org-mode? - Stack Overflow]]
 
@@ -278,6 +293,7 @@ Replies point to =emacs-freex= and =transclusion-minor-mode=.
 * Packages
 :PROPERTIES:
 :TOC:      :include descendants :depth 0 :force (depth)
+:CUSTOM_ID: packages
 :END:
 
 ** [[https://github.com/gregdetre/emacs-freex][GitHub - gregdetre/emacs-freex: Emacs Freex mode is a minor mode for organizing and editing a massively-hyperlinked database of your notes and ideas. It's a personal wiki on steroids.]]
@@ -299,12 +315,11 @@ Replies point to =emacs-freex= and =transclusion-minor-mode=.
 # Local Variables:
 # eval: (require 'org-make-toc)
 # eval: (unpackaged/org-export-html-with-useful-ids-mode 1)
-# org-make-toc-link-type-fn: org-make-toc--link-entry-org
-# before-save-hook: ((lambda () (unpackaged/org-fix-blank-lines t)) (lambda () (save-excursion (goto-char (point-min)) (ap/org-sort-entries-recursive-multi '(?a ?p)))) org-make-toc)
+# before-save-hook: ((lambda () (unpackaged/org-fix-blank-lines t)) (lambda () (save-excursion (goto-char (point-min)))) org-make-toc)
 # after-save-hook: (lambda nil (when (org-html-export-to-html) (rename-file "README.html" "index.html" t)))
 # org-export-with-title: t
 # org-export-with-broken-links: mark
 # org-id-link-to-org-use-id: t
 # org-export-initial-scope: buffer
-# eval: (real-auto-save-mode -1)
+# org-make-toc-insert-custom-ids: t
 # End:

@@ -3,14 +3,14 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-10-10 Sat 12:32 -->
+<!-- 2024-10-16 Wed 19:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Transclusion in Emacs</title>
-<meta name="generator" content="Org mode" />
-<meta name="author" content="Adam Porter" />
-<style type="text/css">
- <!--/*--><![CDATA[/*><!--*/
+<meta name="author" content="me" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
   .title  { text-align: center;
              margin-bottom: .2em; }
   .subtitle { text-align: center;
@@ -31,8 +31,9 @@
   #postamble p, #preamble p { font-size: 90%; margin: .2em; }
   p.verse { margin-left: 3%; }
   pre {
-    border: 1px solid #ccc;
-    box-shadow: 3px 3px 3px #eee;
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
     padding: 8pt;
     font-family: monospace;
     overflow: auto;
@@ -40,22 +41,22 @@
   }
   pre.src {
     position: relative;
-    overflow: visible;
-    padding-top: 1.2em;
+    overflow: auto;
   }
   pre.src:before {
     display: none;
     position: absolute;
-    background-color: white;
-    top: -10px;
-    right: 10px;
+    top: -8px;
+    right: 12px;
     padding: 3px;
-    border: 1px solid black;
+    color: #555;
+    background-color: #f2f2f299;
   }
-  pre.src:hover:before { display: inline;}
+  pre.src:hover:before { display: inline; margin-top: 14px;}
   /* Languages per Org manual */
   pre.src-asymptote:before { content: 'Asymptote'; }
   pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
   pre.src-C:before { content: 'C'; }
   /* pre.src-C++ doesn't work in CSS */
   pre.src-clojure:before { content: 'Clojure'; }
@@ -68,6 +69,7 @@
   pre.src-fortran:before { content: 'Fortran'; }
   pre.src-gnuplot:before { content: 'gnuplot'; }
   pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
   pre.src-java:before { content: 'Java'; }
   pre.src-js:before { content: 'Javascript'; }
   pre.src-latex:before { content: 'LaTeX'; }
@@ -160,6 +162,19 @@
   .footdef  { margin-bottom: 1em; }
   .figure { padding: 1em; }
   .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
   .inlinetask {
     padding: 10px;
     border: 2px solid gray;
@@ -176,91 +191,38 @@
     { font-size: 10px; font-weight: bold; white-space: nowrap; }
   .org-info-js_search-highlight
     { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { width: 90%; }
-  /*]]>*/-->
+  .org-svg { }
 </style>
-<style type="text/css">
-       <!--/*--><![CDATA[/*><!--*/
-         .timestamp, .timestamp-kwd { color: #268bd2 !important; }
-         blockquote > p { color: #333333 !important; font-size: 95% !important; }
-         /*]]>*/-->
-      </style>
-<script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2013 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
 </head>
 <body>
-<div id="content">
+<div id="content" class="content">
 <h1 class="title">Transclusion in Emacs</h1>
-<div id="table-of-contents">
+<div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#Contents">1. Contents</a></li>
-<li><a href="#Discussions">2. Discussions</a>
+<li><a href="#discussions">2. Discussions</a>
 <ul>
-<li><a href="#Bug%20reports%20%2F%20Feature%20requests">2.1. Bug reports / Feature requests</a>
+<li><a href="#bug-reports--feature-requests">2.1. Bug reports / Feature requests</a>
 <ul>
 <li><a href="#%5B%5Bhttps%3A%2F%2Fdebbugs.gnu.org%2Fcgi%2Fbugreport.cgi%3Fbug%3D35419%5D%5B%2335419%20-%20%7BProposal%7D%20Buffer%20Lenses%20and%20the%20Case%20of%20Org-Mode%20%28also%2C%20Jupyter%29%20-%20GNU%20bug%20report%20logs%5D%5D">2.1.1. #35419 - {Proposal} Buffer Lenses and the Case of Org-Mode (also, Jupyter) - GNU bug report logs</a></li>
 </ul>
 </li>
-<li><a href="#Mailing%20lists">2.2. Mailing lists</a>
+<li><a href="#mailing-lists">2.2. Mailing lists</a>
 <ul>
 <li><a href="#emacs-devel">2.2.1. emacs-devel</a></li>
 <li><a href="#org-mode">2.2.2. org-mode</a></li>
 </ul>
 </li>
-<li><a href="#Reddit">2.3. Reddit</a>
+<li><a href="#reddit">2.3. Reddit</a>
 <ul>
 <li><a href="#%5B%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2Femacs%2Fcomments%2F10gc9u%2Fcan_i_have_multiple_parts_of_buffers_in_one_super%2F%5D%5BCan%20I%20have%20multiple%20parts%20of%20buffers%20in%20one%20super%20buffer%3F%20%3A%20emacs%5D%5D">2.3.1. Can I have multiple parts of buffers in one super buffer? : emacs</a></li>
 <li><a href="#%5B%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2Femacs%2Fcomments%2Fflxqei%2Fcloningmirroring_a_region_to_some_other_location%2F%5D%5BCloning%2Fmirroring%20a%20region%20to%20some%20other%20location%20%3A%20emacs%5D%5D">2.3.2. Cloning/mirroring a region to some other location : emacs</a></li>
 <li><a href="#%5B%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2Femacs%2Fcomments%2Fj6k2j8%2Forgmode_transclusionblockreference_prototype%2F%5D%5BOrg-mode%20Transclusion%2FBlock-reference%20Prototype%20%3A%20emacs%5D%5D">2.3.3. Org-mode Transclusion/Block-reference Prototype : emacs&#xa0;&#xa0;&#xa0;<span class="tag"><span class="video">video</span>&#xa0;<span class="demo">demo</span>&#xa0;<span class="prototype">prototype</span></span></a></li>
 </ul>
 </li>
-<li><a href="#StackExchange">2.4. StackExchange</a>
+<li><a href="#stackexchange">2.4. StackExchange</a>
 <ul>
 <li><a href="#%5B%5Bhttps%3A%2F%2Fstackoverflow.com%2Fquestions%2F15328515%2Fiso-transclusion-in-emacs-org-mode%5D%5Binclude%20-%20ISO%20transclusion%20in%20emacs%20org-mode%3F%20-%20Stack%20Overflow%5D%5D">2.4.1. include - ISO transclusion in emacs org-mode? - Stack Overflow</a></li>
 <li><a href="#%5B%5Bhttps%3A%2F%2Femacs.stackexchange.com%2Fquestions%2F56201%2Fis-there-an-emacs-package-which-can-mirror-a-region%2F56202%2356202%5D%5BIs%20there%20an%20emacs%20package%20which%20can%20mirror%20a%20region%3F%20-%20Emacs%20Stack%20Exchange%5D%5D">2.4.2. Is there an emacs package which can mirror a region? - Emacs Stack Exchange</a></li>
@@ -269,7 +231,7 @@ for the JavaScript code in this tag.
 </li>
 </ul>
 </li>
-<li><a href="#Packages">3. Packages</a>
+<li><a href="#packages">3. Packages</a>
 <ul>
 <li><a href="#%5B%5Bhttps%3A%2F%2Fgithub.com%2Fgregdetre%2Femacs-freex%5D%5BGitHub%20-%20gregdetre%2Femacs-freex%3A%20Emacs%20Freex%20mode%20is%20a%20minor%20mode%20for%20organizing%20and%20editing%20a%20massively-hyperlinked%20database%20of%20your%20notes%20and%20ideas.%20It%27s%20a%20personal%20wiki%20on%20steroids.%5D%5D">3.1. GitHub - gregdetre/emacs-freex: Emacs Freex mode is a minor mode for organizing and editing a massively-hyperlinked database of your notes and ideas. It's a personal wiki on steroids.</a></li>
 <li><a href="#%5B%5Bhttps%3A%2F%2Fgithub.com%2Fmagnars%2Fmultifiles.el%5D%5BGitHub%20-%20magnars%2Fmultifiles.el%3A%20Work%20in%20progress%3A%20View%20and%20edit%20parts%20of%20multiple%20files%20in%20one%20buffer%5D%5D">3.2. GitHub - magnars/multifiles.el: Work in progress: View and edit parts of multiple files in one buffer</a></li>
@@ -294,29 +256,33 @@ Please send additions as pull requests.  When adding a resource, please add a su
 </p>
 
 <div id="outline-container-Contents" class="outline-2">
-<h2 id="Contents"><span class="section-number-2">1</span> Contents</h2>
+<h2 id="Contents"><span class="section-number-2">1.</span> Contents</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li><a href="#Discussions">Discussions</a>
+<li><a href="#discussions">Discussions</a>
 <ul class="org-ul">
-<li><a href="#Bug%20reports%20%2F%20Feature%20requests">Bug reports / Feature requests</a></li>
-<li><a href="#Mailing%20lists">Mailing lists</a></li>
-<li><a href="#Reddit">Reddit</a></li>
-<li><a href="#StackExchange">StackExchange</a></li>
+<li><a href="#bug-reports--feature-requests">Bug reports / Feature requests</a></li>
+<li><a href="#mailing-lists">Mailing lists</a></li>
+<li><a href="#reddit">Reddit</a></li>
+<li><a href="#stackexchange">StackExchange</a></li>
 </ul></li>
-<li><a href="#Packages">Packages</a></li>
+<li><a href="#packages">Packages</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-Discussions" class="outline-2">
-<h2 id="Discussions"><span class="section-number-2">2</span> Discussions</h2>
-<div class="outline-text-2" id="text-2">
-</div><div id="outline-container-Bug%20reports%20%2F%20Feature%20requests" class="outline-3">
-<h3 id="Bug%20reports%20%2F%20Feature%20requests"><span class="section-number-3">2.1</span> Bug reports / Feature requests</h3>
-<div class="outline-text-3" id="text-2-1">
-</div><div id="outline-container-%5B%5Bhttps%3A%2F%2Fdebbugs.gnu.org%2Fcgi%2Fbugreport.cgi%3Fbug%3D35419%5D%5B%2335419%20-%20%7BProposal%7D%20Buffer%20Lenses%20and%20the%20Case%20of%20Org-Mode%20%28also%2C%20Jupyter%29%20-%20GNU%20bug%20report%20logs%5D%5D" class="outline-4">
-<h4 id="%5B%5Bhttps%3A%2F%2Fdebbugs.gnu.org%2Fcgi%2Fbugreport.cgi%3Fbug%3D35419%5D%5B%2335419%20-%20%7BProposal%7D%20Buffer%20Lenses%20and%20the%20Case%20of%20Org-Mode%20%28also%2C%20Jupyter%29%20-%20GNU%20bug%20report%20logs%5D%5D"><span class="section-number-4">2.1.1</span> <a href="https://debbugs.gnu.org/cgi/bugreport.cgi?bug=35419">#35419 - {Proposal} Buffer Lenses and the Case of Org-Mode (also, Jupyter) - GNU bug report logs</a></h4>
+<div id="outline-container-discussions" class="outline-2">
+<h2 id="discussions"><span class="section-number-2">2.</span> Discussions</h2>
+<div class="outline-text-2" id="text-discussions">
+</div>
+
+<div id="outline-container-bug-reports--feature-requests" class="outline-3">
+<h3 id="bug-reports--feature-requests"><span class="section-number-3">2.1.</span> Bug reports / Feature requests</h3>
+<div class="outline-text-3" id="text-bug-reports--feature-requests">
+</div>
+
+<div id="outline-container-%5B%5Bhttps%3A%2F%2Fdebbugs.gnu.org%2Fcgi%2Fbugreport.cgi%3Fbug%3D35419%5D%5B%2335419%20-%20%7BProposal%7D%20Buffer%20Lenses%20and%20the%20Case%20of%20Org-Mode%20%28also%2C%20Jupyter%29%20-%20GNU%20bug%20report%20logs%5D%5D" class="outline-4">
+<h4 id="%5B%5Bhttps%3A%2F%2Fdebbugs.gnu.org%2Fcgi%2Fbugreport.cgi%3Fbug%3D35419%5D%5B%2335419%20-%20%7BProposal%7D%20Buffer%20Lenses%20and%20the%20Case%20of%20Org-Mode%20%28also%2C%20Jupyter%29%20-%20GNU%20bug%20report%20logs%5D%5D"><span class="section-number-4">2.1.1.</span> <a href="https://debbugs.gnu.org/cgi/bugreport.cgi?bug=35419">#35419 - {Proposal} Buffer Lenses and the Case of Org-Mode (also, Jupyter) - GNU bug report logs</a></h4>
 <div class="outline-text-4" id="text-2-1-1">
 <p>
 <span class="timestamp-wrapper"><span class="timestamp">[2019-04-25 Thu]  </span></span>  Dmitrii Korobeinikov's report is extensive.  The discussion on the report continues into April of 2020.
@@ -352,13 +318,18 @@ Here is my work-in-progress on the subject: <a href="https://github.com/yantar92
 </div>
 </div>
 
-<div id="outline-container-Mailing%20lists" class="outline-3">
-<h3 id="Mailing%20lists"><span class="section-number-3">2.2</span> Mailing lists</h3>
-<div class="outline-text-3" id="text-2-2">
-</div><div id="outline-container-emacs-devel" class="outline-4">
-<h4 id="emacs-devel"><span class="section-number-4">2.2.1</span> emacs-devel</h4>
+<div id="outline-container-mailing-lists" class="outline-3">
+<h3 id="mailing-lists"><span class="section-number-3">2.2.</span> Mailing lists</h3>
+<div class="outline-text-3" id="text-mailing-lists">
+</div>
+
+<div id="outline-container-emacs-devel" class="outline-4">
+<h4 id="emacs-devel"><span class="section-number-4">2.2.1.</span> emacs-devel</h4>
 <div class="outline-text-4" id="text-2-2-1">
-</div><ol class="org-ol"><li><a id="%5B%5Bhttps%3A%2F%2Flists.gnu.org%2Farchive%2Fhtml%2Femacs-devel%2F2020-04%2Fmsg00141.html%5D%5BRequest%20for%20pointers%20and%20advice%3A%20displaying%20several%20buffers%20inside%20a%20single%20window%5D%5D"></a><a href="https://lists.gnu.org/archive/html/emacs-devel/2020-04/msg00141.html">Request for pointers and advice: displaying several buffers inside a single window</a><br /><div class="outline-text-5" id="text-2-2-1-1">
+</div>
+<ol class="org-ol">
+<li><a id="%5B%5Bhttps%3A%2F%2Flists.gnu.org%2Farchive%2Fhtml%2Femacs-devel%2F2020-04%2Fmsg00141.html%5D%5BRequest%20for%20pointers%20and%20advice%3A%20displaying%20several%20buffers%20inside%20a%20single%20window%5D%5D"></a><a href="https://lists.gnu.org/archive/html/emacs-devel/2020-04/msg00141.html">Request for pointers and advice: displaying several buffers inside a single window</a><br />
+<div class="outline-text-5" id="text-2-2-1-1">
 <p>
 <span class="timestamp-wrapper"><span class="timestamp">[2020-04-03 Fri]  </span></span>  Dmitrii Korobeinikov asks:
 </p>
@@ -397,9 +368,11 @@ actually draw some buffers together.
 <p>
 The discussion is extensive, including replies from Eli Zaretskii and Ihor Radchenko, and mentions modifying <code>xdisp.c</code>, the buffer data structure, associated functions, etc.
 </p>
-</div></li>
+</div>
+</li>
 
-<li><a id="%5B%5Bhttps%3A%2F%2Flists.gnu.org%2Farchive%2Fhtml%2Femacs-devel%2F2018-07%2Fmsg00863.html%5D%5B%7BFeature%20Discuss%7D%20Nested%20buffer%5D%5D"></a><a href="https://lists.gnu.org/archive/html/emacs-devel/2018-07/msg00863.html">{Feature Discuss} Nested buffer</a><br /><div class="outline-text-5" id="text-2-2-1-2">
+<li><a id="%5B%5Bhttps%3A%2F%2Flists.gnu.org%2Farchive%2Fhtml%2Femacs-devel%2F2018-07%2Fmsg00863.html%5D%5B%7BFeature%20Discuss%7D%20Nested%20buffer%5D%5D"></a><a href="https://lists.gnu.org/archive/html/emacs-devel/2018-07/msg00863.html">{Feature Discuss} Nested buffer</a><br />
+<div class="outline-text-5" id="text-2-2-1-2">
 <p>
 <span class="timestamp-wrapper"><span class="timestamp">[2018-07-23 Mon] </span></span> fei xiaobo asks:
 </p>
@@ -430,13 +403,18 @@ Appreciated any comments or suggestion.
 <p>
 Includes responses by Stefan Monnier and Eli Zaretskii.
 </p>
-</div></li></ol>
+</div>
+</li>
+</ol>
 </div>
 
 <div id="outline-container-org-mode" class="outline-4">
-<h4 id="org-mode"><span class="section-number-4">2.2.2</span> org-mode</h4>
+<h4 id="org-mode"><span class="section-number-4">2.2.2.</span> org-mode</h4>
 <div class="outline-text-4" id="text-2-2-2">
-</div><ol class="org-ol"><li><a id="%5B%5Bhttps%3A%2F%2Flists.gnu.org%2Farchive%2Fhtml%2Femacs-orgmode%2F2016-12%2Fmsg00183.html%5D%5B%7BO%7D%20transcluding%20some%20org-elements%20in%20multiple%20places%5D%5D"></a><a href="https://lists.gnu.org/archive/html/emacs-orgmode/2016-12/msg00183.html">{O} transcluding some org-elements in multiple places</a><br /><div class="outline-text-5" id="text-2-2-2-1">
+</div>
+<ol class="org-ol">
+<li><a id="%5B%5Bhttps%3A%2F%2Flists.gnu.org%2Farchive%2Fhtml%2Femacs-orgmode%2F2016-12%2Fmsg00183.html%5D%5B%7BO%7D%20transcluding%20some%20org-elements%20in%20multiple%20places%5D%5D"></a><a href="https://lists.gnu.org/archive/html/emacs-orgmode/2016-12/msg00183.html">{O} transcluding some org-elements in multiple places</a><br />
+<div class="outline-text-5" id="text-2-2-2-1">
 <p>
 <span class="timestamp-wrapper"><span class="timestamp">[2016-12-09 Fri]  </span></span>  John Kitchin asks:
 </p>
@@ -495,19 +473,23 @@ blocks, and probably any other element that can be addressed by a
 name/ID.
 </p>
 </blockquote>
-</div></li></ol>
+</div>
+</li>
+</ol>
 </div>
 </div>
 
-<div id="outline-container-Reddit" class="outline-3">
-<h3 id="Reddit"><span class="section-number-3">2.3</span> Reddit</h3>
-<div class="outline-text-3" id="text-2-3">
-</div><div id="outline-container-%5B%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2Femacs%2Fcomments%2F10gc9u%2Fcan_i_have_multiple_parts_of_buffers_in_one_super%2F%5D%5BCan%20I%20have%20multiple%20parts%20of%20buffers%20in%20one%20super%20buffer%3F%20%3A%20emacs%5D%5D" class="outline-4">
-<h4 id="%5B%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2Femacs%2Fcomments%2F10gc9u%2Fcan_i_have_multiple_parts_of_buffers_in_one_super%2F%5D%5BCan%20I%20have%20multiple%20parts%20of%20buffers%20in%20one%20super%20buffer%3F%20%3A%20emacs%5D%5D"><span class="section-number-4">2.3.1</span> <a href="https://www.reddit.com/r/emacs/comments/10gc9u/can_i_have_multiple_parts_of_buffers_in_one_super/">Can I have multiple parts of buffers in one super buffer? : emacs</a></h4>
+<div id="outline-container-reddit" class="outline-3">
+<h3 id="reddit"><span class="section-number-3">2.3.</span> Reddit</h3>
+<div class="outline-text-3" id="text-reddit">
+</div>
+
+<div id="outline-container-%5B%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2Femacs%2Fcomments%2F10gc9u%2Fcan_i_have_multiple_parts_of_buffers_in_one_super%2F%5D%5BCan%20I%20have%20multiple%20parts%20of%20buffers%20in%20one%20super%20buffer%3F%20%3A%20emacs%5D%5D" class="outline-4">
+<h4 id="%5B%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2Femacs%2Fcomments%2F10gc9u%2Fcan_i_have_multiple_parts_of_buffers_in_one_super%2F%5D%5BCan%20I%20have%20multiple%20parts%20of%20buffers%20in%20one%20super%20buffer%3F%20%3A%20emacs%5D%5D"><span class="section-number-4">2.3.1.</span> <a href="https://www.reddit.com/r/emacs/comments/10gc9u/can_i_have_multiple_parts_of_buffers_in_one_super/">Can I have multiple parts of buffers in one super buffer? : emacs</a></h4>
 </div>
 
 <div id="outline-container-%5B%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2Femacs%2Fcomments%2Fflxqei%2Fcloningmirroring_a_region_to_some_other_location%2F%5D%5BCloning%2Fmirroring%20a%20region%20to%20some%20other%20location%20%3A%20emacs%5D%5D" class="outline-4">
-<h4 id="%5B%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2Femacs%2Fcomments%2Fflxqei%2Fcloningmirroring_a_region_to_some_other_location%2F%5D%5BCloning%2Fmirroring%20a%20region%20to%20some%20other%20location%20%3A%20emacs%5D%5D"><span class="section-number-4">2.3.2</span> <a href="https://www.reddit.com/r/emacs/comments/flxqei/cloningmirroring_a_region_to_some_other_location/">Cloning/mirroring a region to some other location : emacs</a></h4>
+<h4 id="%5B%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2Femacs%2Fcomments%2Fflxqei%2Fcloningmirroring_a_region_to_some_other_location%2F%5D%5BCloning%2Fmirroring%20a%20region%20to%20some%20other%20location%20%3A%20emacs%5D%5D"><span class="section-number-4">2.3.2.</span> <a href="https://www.reddit.com/r/emacs/comments/flxqei/cloningmirroring_a_region_to_some_other_location/">Cloning/mirroring a region to some other location : emacs</a></h4>
 <div class="outline-text-4" id="text-2-3-2">
 <p>
 <span class="timestamp-wrapper"><span class="timestamp">[2020-03-20 Fri]  </span></span>  Protesilaos Stavros comments:
@@ -530,7 +512,7 @@ Good to know! The Emacs manual also has a chapter on "accumulating text". Excerp
 </div>
 
 <div id="outline-container-%5B%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2Femacs%2Fcomments%2Fj6k2j8%2Forgmode_transclusionblockreference_prototype%2F%5D%5BOrg-mode%20Transclusion%2FBlock-reference%20Prototype%20%3A%20emacs%5D%5D" class="outline-4">
-<h4 id="%5B%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2Femacs%2Fcomments%2Fj6k2j8%2Forgmode_transclusionblockreference_prototype%2F%5D%5BOrg-mode%20Transclusion%2FBlock-reference%20Prototype%20%3A%20emacs%5D%5D"><a id="ID-7bd62eda-5e00-42f2-9284-d96ff3eaa197"></a><span class="section-number-4">2.3.3</span> <a href="https://www.reddit.com/r/emacs/comments/j6k2j8/orgmode_transclusionblockreference_prototype/">Org-mode Transclusion/Block-reference Prototype : emacs</a>&#xa0;&#xa0;&#xa0;<span class="tag"><span class="video">video</span>&#xa0;<span class="demo">demo</span>&#xa0;<span class="prototype">prototype</span></span></h4>
+<h4 id="%5B%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2Femacs%2Fcomments%2Fj6k2j8%2Forgmode_transclusionblockreference_prototype%2F%5D%5BOrg-mode%20Transclusion%2FBlock-reference%20Prototype%20%3A%20emacs%5D%5D"><span class="section-number-4">2.3.3.</span> <a href="https://www.reddit.com/r/emacs/comments/j6k2j8/orgmode_transclusionblockreference_prototype/">Org-mode Transclusion/Block-reference Prototype : emacs</a>&#xa0;&#xa0;&#xa0;<span class="tag"><span class="video">video</span>&#xa0;<span class="demo">demo</span>&#xa0;<span class="prototype">prototype</span></span></h4>
 <div class="outline-text-4" id="text-2-3-3">
 <p>
 <span class="timestamp-wrapper"><span class="timestamp">[2020-10-07 Wed 10:55]  </span></span>  Discussion of this video demo posted by Noboru Nobiot: <a href="https://youtu.be/Wjk-otO2xrI">Transclusion / Block Reference with Emacs (Org Mode) - Prototype - YouTube</a>
@@ -539,11 +521,13 @@ Good to know! The Emacs manual also has a chapter on "accumulating text". Excerp
 </div>
 </div>
 
-<div id="outline-container-StackExchange" class="outline-3">
-<h3 id="StackExchange"><span class="section-number-3">2.4</span> StackExchange</h3>
-<div class="outline-text-3" id="text-2-4">
-</div><div id="outline-container-%5B%5Bhttps%3A%2F%2Fstackoverflow.com%2Fquestions%2F15328515%2Fiso-transclusion-in-emacs-org-mode%5D%5Binclude%20-%20ISO%20transclusion%20in%20emacs%20org-mode%3F%20-%20Stack%20Overflow%5D%5D" class="outline-4">
-<h4 id="%5B%5Bhttps%3A%2F%2Fstackoverflow.com%2Fquestions%2F15328515%2Fiso-transclusion-in-emacs-org-mode%5D%5Binclude%20-%20ISO%20transclusion%20in%20emacs%20org-mode%3F%20-%20Stack%20Overflow%5D%5D"><span class="section-number-4">2.4.1</span> <a href="https://stackoverflow.com/questions/15328515/iso-transclusion-in-emacs-org-mode">include - ISO transclusion in emacs org-mode? - Stack Overflow</a></h4>
+<div id="outline-container-stackexchange" class="outline-3">
+<h3 id="stackexchange"><span class="section-number-3">2.4.</span> StackExchange</h3>
+<div class="outline-text-3" id="text-stackexchange">
+</div>
+
+<div id="outline-container-%5B%5Bhttps%3A%2F%2Fstackoverflow.com%2Fquestions%2F15328515%2Fiso-transclusion-in-emacs-org-mode%5D%5Binclude%20-%20ISO%20transclusion%20in%20emacs%20org-mode%3F%20-%20Stack%20Overflow%5D%5D" class="outline-4">
+<h4 id="%5B%5Bhttps%3A%2F%2Fstackoverflow.com%2Fquestions%2F15328515%2Fiso-transclusion-in-emacs-org-mode%5D%5Binclude%20-%20ISO%20transclusion%20in%20emacs%20org-mode%3F%20-%20Stack%20Overflow%5D%5D"><span class="section-number-4">2.4.1.</span> <a href="https://stackoverflow.com/questions/15328515/iso-transclusion-in-emacs-org-mode">include - ISO transclusion in emacs org-mode? - Stack Overflow</a></h4>
 <div class="outline-text-4" id="text-2-4-1">
 <p>
 <span class="timestamp-wrapper"><span class="timestamp">[2013-03-10 Sun]</span></span>
@@ -616,7 +600,7 @@ More info on dynamic blocks at <a href="http://orgmode.org/org.html#Dynamic-bloc
 </div>
 
 <div id="outline-container-%5B%5Bhttps%3A%2F%2Femacs.stackexchange.com%2Fquestions%2F56201%2Fis-there-an-emacs-package-which-can-mirror-a-region%2F56202%2356202%5D%5BIs%20there%20an%20emacs%20package%20which%20can%20mirror%20a%20region%3F%20-%20Emacs%20Stack%20Exchange%5D%5D" class="outline-4">
-<h4 id="%5B%5Bhttps%3A%2F%2Femacs.stackexchange.com%2Fquestions%2F56201%2Fis-there-an-emacs-package-which-can-mirror-a-region%2F56202%2356202%5D%5BIs%20there%20an%20emacs%20package%20which%20can%20mirror%20a%20region%3F%20-%20Emacs%20Stack%20Exchange%5D%5D"><span class="section-number-4">2.4.2</span> <a href="https://emacs.stackexchange.com/questions/56201/is-there-an-emacs-package-which-can-mirror-a-region/56202#56202">Is there an emacs package which can mirror a region? - Emacs Stack Exchange</a></h4>
+<h4 id="%5B%5Bhttps%3A%2F%2Femacs.stackexchange.com%2Fquestions%2F56201%2Fis-there-an-emacs-package-which-can-mirror-a-region%2F56202%2356202%5D%5BIs%20there%20an%20emacs%20package%20which%20can%20mirror%20a%20region%3F%20-%20Emacs%20Stack%20Exchange%5D%5D"><span class="section-number-4">2.4.2.</span> <a href="https://emacs.stackexchange.com/questions/56201/is-there-an-emacs-package-which-can-mirror-a-region/56202#56202">Is there an emacs package which can mirror a region? - Emacs Stack Exchange</a></h4>
 <div class="outline-text-4" id="text-2-4-2">
 <p>
 <span class="timestamp-wrapper"><span class="timestamp">[2020-03-17 Tue]</span></span>
@@ -643,11 +627,11 @@ The documentation string for the command `text-clone-create`:
 
 <p>
 &gt; (text-clone-create START END &amp;optional SPREADP SYNTAX)
-&gt;
+&gt; 
 &gt; Create a text clone of START&#x2026;END at point.
 &gt; Text clones are chunks of text that are automatically kept identical:
 &gt; changes done to one of the clones will be immediately propagated to the other.
-&gt;
+&gt; 
 &gt; The buffer’s content at point is assumed to be already identical to
 &gt; the one between START and END.
 &gt; If SYNTAX is provided it’s a regexp that describes the possible text of
@@ -681,7 +665,7 @@ There is also an interactive helper command `my-clone` in the code.
 </div>
 
 <div id="outline-container-%5B%5Bhttps%3A%2F%2Femacs.stackexchange.com%2Fquestions%2F12562%2Forg-mode-headings-in-multiple-places-at-once-transclusion%5D%5BOrg-mode%20headings%20in%20multiple%20places%20at%20once%3F%20%28transclusion%29%20-%20Emacs%20Stack%20Exchange%5D%5D" class="outline-4">
-<h4 id="%5B%5Bhttps%3A%2F%2Femacs.stackexchange.com%2Fquestions%2F12562%2Forg-mode-headings-in-multiple-places-at-once-transclusion%5D%5BOrg-mode%20headings%20in%20multiple%20places%20at%20once%3F%20%28transclusion%29%20-%20Emacs%20Stack%20Exchange%5D%5D"><span class="section-number-4">2.4.3</span> <a href="https://emacs.stackexchange.com/questions/12562/org-mode-headings-in-multiple-places-at-once-transclusion">Org-mode headings in multiple places at once? (transclusion) - Emacs Stack Exchange</a></h4>
+<h4 id="%5B%5Bhttps%3A%2F%2Femacs.stackexchange.com%2Fquestions%2F12562%2Forg-mode-headings-in-multiple-places-at-once-transclusion%5D%5BOrg-mode%20headings%20in%20multiple%20places%20at%20once%3F%20%28transclusion%29%20-%20Emacs%20Stack%20Exchange%5D%5D"><span class="section-number-4">2.4.3.</span> <a href="https://emacs.stackexchange.com/questions/12562/org-mode-headings-in-multiple-places-at-once-transclusion">Org-mode headings in multiple places at once? (transclusion) - Emacs Stack Exchange</a></h4>
 <div class="outline-text-4" id="text-2-4-3">
 <p>
 <span class="timestamp-wrapper"><span class="timestamp">[2015-05-20 Wed]</span></span>
@@ -713,21 +697,21 @@ Replies point to <code>emacs-freex</code> and <code>transclusion-minor-mode</cod
 </div>
 </div>
 
-<div id="outline-container-Packages" class="outline-2">
-<h2 id="Packages"><span class="section-number-2">3</span> Packages</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-packages" class="outline-2">
+<h2 id="packages"><span class="section-number-2">3.</span> Packages</h2>
+<div class="outline-text-2" id="text-packages">
 </div>
 
 <div id="outline-container-%5B%5Bhttps%3A%2F%2Fgithub.com%2Fgregdetre%2Femacs-freex%5D%5BGitHub%20-%20gregdetre%2Femacs-freex%3A%20Emacs%20Freex%20mode%20is%20a%20minor%20mode%20for%20organizing%20and%20editing%20a%20massively-hyperlinked%20database%20of%20your%20notes%20and%20ideas.%20It%27s%20a%20personal%20wiki%20on%20steroids.%5D%5D" class="outline-3">
-<h3 id="%5B%5Bhttps%3A%2F%2Fgithub.com%2Fgregdetre%2Femacs-freex%5D%5BGitHub%20-%20gregdetre%2Femacs-freex%3A%20Emacs%20Freex%20mode%20is%20a%20minor%20mode%20for%20organizing%20and%20editing%20a%20massively-hyperlinked%20database%20of%20your%20notes%20and%20ideas.%20It%27s%20a%20personal%20wiki%20on%20steroids.%5D%5D"><span class="section-number-3">3.1</span> <a href="https://github.com/gregdetre/emacs-freex">GitHub - gregdetre/emacs-freex: Emacs Freex mode is a minor mode for organizing and editing a massively-hyperlinked database of your notes and ideas. It's a personal wiki on steroids.</a></h3>
+<h3 id="%5B%5Bhttps%3A%2F%2Fgithub.com%2Fgregdetre%2Femacs-freex%5D%5BGitHub%20-%20gregdetre%2Femacs-freex%3A%20Emacs%20Freex%20mode%20is%20a%20minor%20mode%20for%20organizing%20and%20editing%20a%20massively-hyperlinked%20database%20of%20your%20notes%20and%20ideas.%20It%27s%20a%20personal%20wiki%20on%20steroids.%5D%5D"><span class="section-number-3">3.1.</span> <a href="https://github.com/gregdetre/emacs-freex">GitHub - gregdetre/emacs-freex: Emacs Freex mode is a minor mode for organizing and editing a massively-hyperlinked database of your notes and ideas. It's a personal wiki on steroids.</a></h3>
 </div>
 
 <div id="outline-container-%5B%5Bhttps%3A%2F%2Fgithub.com%2Fmagnars%2Fmultifiles.el%5D%5BGitHub%20-%20magnars%2Fmultifiles.el%3A%20Work%20in%20progress%3A%20View%20and%20edit%20parts%20of%20multiple%20files%20in%20one%20buffer%5D%5D" class="outline-3">
-<h3 id="%5B%5Bhttps%3A%2F%2Fgithub.com%2Fmagnars%2Fmultifiles.el%5D%5BGitHub%20-%20magnars%2Fmultifiles.el%3A%20Work%20in%20progress%3A%20View%20and%20edit%20parts%20of%20multiple%20files%20in%20one%20buffer%5D%5D"><span class="section-number-3">3.2</span> <a href="https://github.com/magnars/multifiles.el">GitHub - magnars/multifiles.el: Work in progress: View and edit parts of multiple files in one buffer</a></h3>
+<h3 id="%5B%5Bhttps%3A%2F%2Fgithub.com%2Fmagnars%2Fmultifiles.el%5D%5BGitHub%20-%20magnars%2Fmultifiles.el%3A%20Work%20in%20progress%3A%20View%20and%20edit%20parts%20of%20multiple%20files%20in%20one%20buffer%5D%5D"><span class="section-number-3">3.2.</span> <a href="https://github.com/magnars/multifiles.el">GitHub - magnars/multifiles.el: Work in progress: View and edit parts of multiple files in one buffer</a></h3>
 </div>
 
 <div id="outline-container-%5B%5Bhttps%3A%2F%2Fgithub.com%2Fnobiot%2Forg-transclusion%5D%5BGitHub%20-%20nobiot%2Forg-transclusion%3A%20%28prototype%29%20Emacs%20package%20to%20enable%20transclusion%20with%20Org%20Mode%5D%5D" class="outline-3">
-<h3 id="%5B%5Bhttps%3A%2F%2Fgithub.com%2Fnobiot%2Forg-transclusion%5D%5BGitHub%20-%20nobiot%2Forg-transclusion%3A%20%28prototype%29%20Emacs%20package%20to%20enable%20transclusion%20with%20Org%20Mode%5D%5D"><span class="section-number-3">3.3</span> <a href="https://github.com/nobiot/org-transclusion">GitHub - nobiot/org-transclusion: (prototype) Emacs package to enable transclusion with Org Mode</a></h3>
+<h3 id="%5B%5Bhttps%3A%2F%2Fgithub.com%2Fnobiot%2Forg-transclusion%5D%5BGitHub%20-%20nobiot%2Forg-transclusion%3A%20%28prototype%29%20Emacs%20package%20to%20enable%20transclusion%20with%20Org%20Mode%5D%5D"><span class="section-number-3">3.3.</span> <a href="https://github.com/nobiot/org-transclusion">GitHub - nobiot/org-transclusion: (prototype) Emacs package to enable transclusion with Org Mode</a></h3>
 <div class="outline-text-3" id="text-3-3">
 <ul class="org-ul">
 <li><a href="#%5B%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2Femacs%2Fcomments%2Fj6k2j8%2Forgmode_transclusionblockreference_prototype%2F%5D%5BOrg-mode%20Transclusion%2FBlock-reference%20Prototype%20%3A%20emacs%5D%5D">Discussion</a></li>
@@ -736,18 +720,18 @@ Replies point to <code>emacs-freex</code> and <code>transclusion-minor-mode</cod
 </div>
 
 <div id="outline-container-%5B%5Bhttps%3A%2F%2Fgithub.com%2Fsynchrony%2Fsmsn-why%5D%5BGitHub%20-%20synchrony%2Fsmsn-why%3A%20Get%20psyched%20about%20mapping%20knowledge%21%5D%5D" class="outline-3">
-<h3 id="%5B%5Bhttps%3A%2F%2Fgithub.com%2Fsynchrony%2Fsmsn-why%5D%5BGitHub%20-%20synchrony%2Fsmsn-why%3A%20Get%20psyched%20about%20mapping%20knowledge%21%5D%5D"><span class="section-number-3">3.4</span> <a href="https://github.com/synchrony/smsn-why">GitHub - synchrony/smsn-why: Get psyched about mapping knowledge!</a></h3>
+<h3 id="%5B%5Bhttps%3A%2F%2Fgithub.com%2Fsynchrony%2Fsmsn-why%5D%5BGitHub%20-%20synchrony%2Fsmsn-why%3A%20Get%20psyched%20about%20mapping%20knowledge%21%5D%5D"><span class="section-number-3">3.4.</span> <a href="https://github.com/synchrony/smsn-why">GitHub - synchrony/smsn-why: Get psyched about mapping knowledge!</a></h3>
 </div>
 
 <div id="outline-container-%5B%5Bhttps%3A%2F%2Fgithub.com%2Fwhacked%2Ftransclusion-minor-mode%5D%5BGitHub%20-%20whacked%2Ftransclusion-minor-mode%3A%20emacs%20minor%20mode%20for%20org-mode%20file%20transclusion%20using%20embedded%20overlays%5D%5D" class="outline-3">
-<h3 id="%5B%5Bhttps%3A%2F%2Fgithub.com%2Fwhacked%2Ftransclusion-minor-mode%5D%5BGitHub%20-%20whacked%2Ftransclusion-minor-mode%3A%20emacs%20minor%20mode%20for%20org-mode%20file%20transclusion%20using%20embedded%20overlays%5D%5D"><span class="section-number-3">3.5</span> <a href="https://github.com/whacked/transclusion-minor-mode">GitHub - whacked/transclusion-minor-mode: emacs minor mode for org-mode file transclusion using embedded overlays</a></h3>
+<h3 id="%5B%5Bhttps%3A%2F%2Fgithub.com%2Fwhacked%2Ftransclusion-minor-mode%5D%5BGitHub%20-%20whacked%2Ftransclusion-minor-mode%3A%20emacs%20minor%20mode%20for%20org-mode%20file%20transclusion%20using%20embedded%20overlays%5D%5D"><span class="section-number-3">3.5.</span> <a href="https://github.com/whacked/transclusion-minor-mode">GitHub - whacked/transclusion-minor-mode: emacs minor mode for org-mode file transclusion using embedded overlays</a></h3>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="author">Author: Adam Porter</p>
-<p class="date">Created: 2020-10-10 Sat 12:32</p>
-<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="author">Author: me</p>
+<p class="date">Created: 2024-10-16 Wed 19:57</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>
