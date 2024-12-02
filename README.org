@@ -302,6 +302,10 @@ Replies point to =emacs-freex= and =transclusion-minor-mode=.
 
 ** [[https://github.com/nobiot/org-transclusion][GitHub - nobiot/org-transclusion: (prototype) Emacs package to enable transclusion with Org Mode]]
 
+** [[https://github.com/legalnonsense/org-clones][GitHub - legalnonsense/org-clones: Clone Orgmode headings so they appear in multiple locations. Clones are a type of transclusion. Package is still being developed and tested. Use at your own risk.]]
+
+** [[https://github.com/justintaft/emacs-transclusion][GitHub - justintaft/emacs-transclusion: Transclude text by references. Transcluded text is not saved in refernce text when saved. Not yet a package.]]
+
 + [[id:7bd62eda-5e00-42f2-9284-d96ff3eaa197][Discussion]]
 
 ** [[https://github.com/synchrony/smsn-why][GitHub - synchrony/smsn-why: Get psyched about mapping knowledge!]]
