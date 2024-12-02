@@ -308,6 +308,8 @@ Replies point to =emacs-freex= and =transclusion-minor-mode=.
 
 ** [[https://github.com/whacked/transclusion-minor-mode][GitHub - whacked/transclusion-minor-mode: emacs minor mode for org-mode file transclusion using embedded overlays]]
 
+** [[https://github.com/alphapapa/transclusion-in-emacs/issues/1][org-peek-link (unmaintained)]]
+
 * COMMENT Config                                                   :noexport:
 
 ** File-local variables
