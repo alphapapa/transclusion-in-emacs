@@ -323,3 +323,6 @@ Replies point to =emacs-freex= and =transclusion-minor-mode=.
 # org-export-initial-scope: buffer
 # org-make-toc-insert-custom-ids: t
 # End:
+* Motivation: Other projects that could use transclusion in Emacs
+** [`org-roam`](https://github.com/org-roam/org-roam/) could use transclusion
+`org-roam` permits users to keep a knowledge graph in Emacs. One file in the graph can refer to another. Currently the user cannot follow such links without opening a new file. It would be better if a link could be unfolded org-style within the file containing it. More discussion [here](https://github.com/org-roam/org-roam/issues/824).
